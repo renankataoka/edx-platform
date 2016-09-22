@@ -1014,7 +1014,7 @@ EDXNOTES_PUBLIC_API = 'http://localhost:8120/api/v1'
 EDXNOTES_INTERNAL_API = 'http://localhost:8120/api/v1'
 
 EDXNOTES_CONNECT_TIMEOUT = 0.5  # time in seconds
-EDXNOTES_READ_TIMEOUT = 1.5  # time in seconds
+EDXNOTES_READ_TIMEOUT = 3.0  # time in seconds
 
 ########################## Parental controls config  #######################
 
