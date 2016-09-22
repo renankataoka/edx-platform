@@ -842,7 +842,7 @@ class EdxNotesPageTest(EventsTestMixin, EdxNotesTestMixin):
 
         self.assert_viewed_event('Tags')
 
-    @flaky(max_runs=20, min_passes=20)  # TNL-4590
+    @flaky(max_runs=50, min_passes=50)  # TNL-4590
     def test_easy_access_from_notes_page(self):
         """
         Scenario: Ensure that the link to the Unit works correctly.
