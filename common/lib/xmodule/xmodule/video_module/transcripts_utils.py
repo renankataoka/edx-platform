@@ -531,6 +531,9 @@ class Transcript(object):
         """
         Return asset location. `location` is module location.
         """
+        # If user transcript filename is empty, raise `TranscriptException` to avoid `InvalidKeyError`.
+        if not filename:
+            raise TranscriptException("Transcript not uploaded yet")
         return StaticContent.compute_location(location.course_key, filename)
 
     @staticmethod
@@ -670,12 +673,14 @@ class VideoTranscriptsMixin(object):
         """
         if is_bumper:
             transcripts = copy.deepcopy(get_bumper_settings(self).get('transcripts', {}))
-            return {
-                "sub": transcripts.pop("en", ""),
-                "transcripts": transcripts,
-            }
+            sub = transcripts.pop("en", "")
         else:
-            return {
-                "sub": self.sub,
-                "transcripts": self.transcripts,
-            }
+            transcripts = self.transcripts
+            sub = self.sub
+
+        # Only attach transcripts that are not empty.
+        transcripts = {k: v for k, v in transcripts.items() if v != ''}
+        return {
+            "sub": sub,
+            "transcripts": transcripts,
+        }
