@@ -984,6 +984,29 @@ class VideoDescriptorIndexingTestCase(unittest.TestCase):
         translations = descriptor.available_translations(descriptor.get_transcripts_info(), verify_assets=False)
         self.assertEqual(translations, ['hr', 'ge'])
 
+    def test_video_with_lang_with_no_transcripts_translation(self):
+        """
+        Test translation retrieval of a video module with
+        a language having no transcripts uploaded by a user.
+        """
+        xml_data_transcripts = '''
+            <video display_name="Test Video"
+                   youtube="1.0:p2Q6BrNhdh8,0.75:izygArpw-Qo,1.25:1EeWXzPdhSA,1.5:rABDYkeK0x8"
+                   show_captions="false"
+                   download_track="false"
+                   start_time="00:00:01"
+                   download_video="false"
+                   end_time="00:01:00">
+              <source src="http://www.example.com/source.mp4"/>
+              <track src="http://www.example.com/track"/>
+              <handout src="http://www.example.com/handout"/>
+              <transcript language="ge" src="" />
+            </video>
+        '''
+        descriptor = instantiate_descriptor(data=xml_data_transcripts)
+        translations = descriptor.available_translations(descriptor.get_transcripts_info(), verify_assets=False)
+        self.assertNotEqual(translations, ['ge'])
+
     def test_video_with_no_transcripts_translation_retrieval(self):
         """
         Test translation retrieval of a video module with

@@ -126,6 +126,24 @@ class VideoEditorTest(CMSVideoBaseTest):
         self.assertIn(unicode_text, self.video.captions_text)
         self.assertEqual(self.video.caption_languages.keys(), ['zh', 'uk'])
 
+    def test_save_language_upload_no_transcript(self):
+        """
+        Scenario: User can can not save transcript language if no transcript file is uploaded
+        Given I have created a Video component
+        And I edit the component
+        And I open tab "Advanced"
+        And I add a language "uk" but do not upload an .srt file
+        And I save changes
+        Then when I view the video
+        And video language menu has "uk" translation
+        """
+        self._create_video_component()
+        self.edit_component()
+        self.open_advanced_tab()
+        self.video.upload_translation('', 'uk')
+        self.save_unit_settings()
+        self.assertNotEqual(self.video.caption_languages.keys(), ['uk'])
+
     def test_upload_large_transcript(self):
         """
         Scenario: User can upload transcript file with > 1mb size
