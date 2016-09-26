@@ -140,9 +140,12 @@ class VideoEditorTest(CMSVideoBaseTest):
         self._create_video_component()
         self.edit_component()
         self.open_advanced_tab()
-        self.video.upload_translation('', 'uk')
+        language_code = 'uk'
+        self.video.click_button('translation_add')
+        translations_count = self.video.translations_count()
+        self.video.select_translation_language(language_code, translations_count - 1)
         self.save_unit_settings()
-        self.assertNotEqual(self.video.caption_languages.keys(), ['uk'])
+        self.assertNotIn(language_code, self.video.caption_languages.keys())
 
     def test_upload_large_transcript(self):
         """
