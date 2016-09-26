@@ -1113,14 +1113,14 @@ class InlineDiscussionTest(UniqueCourseTest, DiscussionResponsePaginationTestMix
         """
         self.discussion_page.wait_for_page()
         self.additional_discussion_page.wait_for_page()
-        self.discussion_page.click_new_post_button()
+        self.discussion_page.expand_discussion()
         with self.discussion_page.handle_alert():
             self.discussion_page.click_cancel_new_post()
-        self.additional_discussion_page.click_new_post_button()
+        self.additional_discussion_page.expand_discussion()
         self.assertFalse(self.discussion_page._is_element_visible(".new-post-article"))
         with self.additional_discussion_page.handle_alert():
             self.additional_discussion_page.click_cancel_new_post()
-        self.discussion_page.click_new_post_button()
+        self.discussion_page.expand_discussion()
         self.assertFalse(self.additional_discussion_page._is_element_visible(".new-post-article"))
 
 

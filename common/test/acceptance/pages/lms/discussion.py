@@ -539,11 +539,11 @@ class InlineDiscussionPage(PageObject):
         ).fulfill()
 
     def click_new_post_button(self):
-         self.click_element(".new-post-btn")
-         EmptyPromise(
-             self.is_new_post_opened,
-             "New post opened"
-         ).fulfill()
+        self.click_element(".new-post-btn")
+        EmptyPromise(
+            self.is_new_post_opened,
+            "New post opened"
+        ).fulfill()
 
     @wait_for_js
     def _is_element_visible(self, selector):
