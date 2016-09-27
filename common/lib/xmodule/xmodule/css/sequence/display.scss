@@ -91,10 +91,10 @@ $next-prev-width: 120px;
       min-width: 20px;
       border-color: $gray-l3;
       border-width: 1px;
-      border-style: solid solid none none;
+      border-top-style: solid;
 
-      &:last-child {
-        border-style: solid none none none;
+      &:not(:last-child) {
+        @include border-right-style(solid);
       }
 
       button {
@@ -109,7 +109,7 @@ $next-prev-width: 120px;
         text-align: center;
         border-color: $gray-l3;
         border-width: 1px;
-        border-style: none none solid none;
+        border-bottom-style: solid;
 
         .icon {
           display: block;
@@ -145,7 +145,6 @@ $next-prev-width: 120px;
 
         //video
         &.seq_video {
-
           .icon:before {
             content: "\f008"; // .fa-film
           }
@@ -153,7 +152,6 @@ $next-prev-width: 120px;
 
         //other
         &.seq_other {
-
           .icon:before {
             content: "\f02d"; // .fa-book
           }
@@ -161,7 +159,6 @@ $next-prev-width: 120px;
 
         //vertical & problems
         &.seq_vertical, &.seq_problem {
-
           .icon:before {
             content: "\f00b";  // .fa-tasks
           }
@@ -259,10 +256,18 @@ $next-prev-width: 120px;
 
 nav.sequence-bottom {
   position: relative;
-  width: 79px;
-  height: 1px;
+  height: 45px;
   margin: lh(2) auto;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+
+  .sequence-nav-button {
+    position: relative;
+
+    &:last-of-type {
+      @include border-left(none);
+    }
+  }
 
   @media print {
     display: none;
