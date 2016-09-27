@@ -258,6 +258,28 @@ class PhotoVerification(StatusModel):
         ).order_by('-created_at')
 
     @classmethod
+    def get_expiration_datetime(cls, user, queryset=None):
+        """
+        Check whether the user has an approved verification and Return the
+        "expiration_datetime" of most recent "approved" verification.
+
+        Arguments:
+            user (Object): User
+            queryset: If a queryset is provided, that will be used instead
+                of hitting the database.
+
+        Returns:
+            expiration_datetime: expiration_datetime of of most recent "approved"
+            verification.
+        """
+        if queryset is None:
+            queryset = cls.objects.filter(user=user)
+
+        queryset = queryset.filter(status='approved').order_by('-updated_at')
+        if queryset:
+            return queryset[0].expiration_datetime
+
+    @classmethod
     def user_has_valid_or_pending(cls, user, earliest_allowed_date=None, queryset=None):
         """
         Check whether the user has an active or pending verification attempt

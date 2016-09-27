@@ -3,6 +3,7 @@ from datetime import datetime
 import urllib
 
 from pytz import UTC
+from django.conf import settings
 from django.core.urlresolvers import reverse, NoReverseMatch
 
 import third_party_auth
@@ -72,6 +73,10 @@ def check_verify_status_by_course(user, course_enrollments):
         user, queryset=verifications
     )
 
+    # Retrieve expiration_datetime of most recent approved verification
+    # To avoid another database hit, we re-use the queryset we have already retrieved.
+    expiration_datetime = SoftwareSecurePhotoVerification.get_expiration_datetime(user, verifications)
+
     # Retrieve verification deadlines for the enrolled courses
     enrolled_course_keys = [enrollment.course_id for enrollment in course_enrollments]
     course_deadlines = VerificationDeadline.deadlines_for_courses(enrolled_course_keys)
@@ -119,11 +124,13 @@ def check_verify_status_by_course(user, course_enrollments):
             )
             if status is None and not submitted:
                 if deadline is None or deadline > datetime.now(UTC):
-                    if has_active_or_pending:
-                        # The user has an active verification, but the verification
-                        # is set to expire before the deadline.  Tell the student
-                        # to reverify.
-                        status = VERIFY_STATUS_NEED_TO_REVERIFY
+                    if SoftwareSecurePhotoVerification.user_is_verified(user):
+                        if (expiration_datetime - datetime.now(UTC)).days <= settings.VERIFY_STUDENT.get(
+                                "VERIFICATION_EXPIRATION_DAYS", 28):
+                            # The user has an active verification, but the verification
+                            # is set to expire within "VERIFICATION_EXPIRATION_DAYS" days (default is 4 weeks).
+                            # Tell the student to reverify.
+                            status = VERIFY_STATUS_NEED_TO_REVERIFY
                     else:
                         status = VERIFY_STATUS_NEED_TO_VERIFY
                 else:

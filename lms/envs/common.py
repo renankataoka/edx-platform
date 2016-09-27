@@ -2289,6 +2289,7 @@ MOBILE_STORE_URLS = {
 ################# Student Verification #################
 VERIFY_STUDENT = {
     "DAYS_GOOD_FOR": 365,  # How many days is a verficiation good for?
+    "VERIFICATION_EXPIRATION_DAYS": 28,  # How many days before we show message to reverify?
 }
 
 ### This enables the Metrics tab for the Instructor dashboard ###########

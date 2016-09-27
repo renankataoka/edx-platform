@@ -330,11 +330,11 @@ from student.helpers import (
             <h4 class="message-title">${_('Your verification will expire soon!')}</h4>
             ## Translators: start_link and end_link will be replaced with HTML tags;
             ## please do not translate these.
-            <p class="message-copy">${Text(_('Your current verification will expire before the verification deadline '
-              'for this course. {start_link}Re-verify your identity now{end_link} using a webcam and a '
+            <p class="message-copy">${Text(_('Your current verification will expire within {days} days. {start_link}Re-verify your identity now{end_link} using a webcam and a '
               'government-issued ID.')).format(
                 start_link=HTML('<a href="{href}">').format(href=reverse('verify_student_reverify')),
-                end_link=HTML('</a>')
+                end_link=HTML('</a>'),
+                days=settings.VERIFY_STUDENT.get("VERIFICATION_EXPIRATION_DAYS", 28)
               )}
             </p>
           % endif
