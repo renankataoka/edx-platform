@@ -23,10 +23,15 @@
     </select>
 
   <div class="indicator-container">
-    <span class="status ${status.classname}"
-        id="status_${id}"
-        aria-describedby="label_${id}" data-tooltip="${status.display_tooltip}">
+    <span class="status ${status.classname}" id="status_${id}" aria-describedby="label_${id}" data-tooltip="${status.display_tooltip}">
         <span class="sr">${status.display_tooltip}</span>
+        % if status == 'correct':
+          <span class="status-icon ${status.classname} fa fa-check"></span>
+        % elif status == 'incorrect':
+          <span class="status-icon ${status.classname} fa fa-times"></span>
+        % elif status == 'partially-correct':
+          <span class="status-icon ${status.classname} fa fa-asterisk"></span>
+        % endif
     </span>
   </div>
   <p class="answer" id="answer_${id}"></p>

@@ -50,11 +50,9 @@ $asterisk-icon: '\f069'; // .fa-asterisk
 // ====================
 @mixin status-icon($color: $gray, $fontAwesomeIcon: "\f00d"){
 
-  &:after {
-    @extend %use-font-awesome;
+  .status-icon {
     color: $color;
     font-size: 1.2em;
-    content: $fontAwesomeIcon;
   }
 }
 
