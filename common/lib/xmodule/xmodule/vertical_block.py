@@ -65,6 +65,7 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
         fragment.add_content(self.system.render_template('vert_module.html', {
             'items': contents,
             'xblock_context': context,
+            'unit_title': self.get_unit_display_name(),
             'show_bookmark_button': True,
             'bookmarked': child_context['bookmarked'],
             'bookmark_id': "{},{}".format(child_context['username'], unicode(self.location))
@@ -74,6 +75,11 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
         fragment.initialize_js('VerticalStudentView')
 
         return fragment
+
+    def get_unit_display_name(self):  # pylint: disable=missing-docstring
+        # pylint: disable=no-member
+        display_name = self.display_name_with_default
+        return display_name
 
     def author_view(self, context):
         """
