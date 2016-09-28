@@ -1378,12 +1378,13 @@ class ReverifyView(View):
 
         expiration_datetime = SoftwareSecurePhotoVerification.get_expiration_datetime(request.user)
         can_reverify = False
-        if (expiration_datetime - datetime.datetime.now(UTC)).days <= settings.VERIFY_STUDENT.get(
-                "VERIFICATION_EXPIRATION_DAYS", 28):
-            # The user has an active verification, but the verification
-            # is set to expire within "VERIFICATION_EXPIRATION_DAYS" days (default is 4 weeks).
-            # In this case user can resubmit photos for reverification.
-            can_reverify = True
+        if expiration_datetime:
+            if (expiration_datetime - datetime.datetime.now(UTC)).days <= settings.VERIFY_STUDENT.get(
+                    "VERIFICATION_EXPIRATION_DAYS", 28):
+                # The user has an active verification, but the verification
+                # is set to expire within "VERIFICATION_EXPIRATION_DAYS" days (default is 4 weeks).
+                # In this case user can resubmit photos for reverification.
+                can_reverify = True
 
         # If the user has no initial verification or if the verification
         # process is still ongoing 'pending' or expired then allow the user to
