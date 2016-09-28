@@ -487,6 +487,7 @@ class @Problem
         @focus_on_save_notification()
       else
         @gentle_alert saveMessage
+      @updateProgress response
 
   refreshMath: (event, element) =>
     element = event.target unless element
