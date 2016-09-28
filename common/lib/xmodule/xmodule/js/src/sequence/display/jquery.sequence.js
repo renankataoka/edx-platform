@@ -38,7 +38,7 @@ var SequenceNav = function($element) {
 	};
 
 	var updateWidths = function(e) {
-		maxScroll = $list.width() - $wrapper.width() + 20;
+		maxScroll = $list.width() - $wrapper.width();
 		var targetLeft = clamp($list.position().left, -maxScroll, 0);
 		updateHorizontalPosition(targetLeft);
 	};
