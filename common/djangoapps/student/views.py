@@ -132,6 +132,13 @@ ReverifyInfo = namedtuple('ReverifyInfo', 'course_id course_name course_number d
 SETTING_CHANGE_INITIATED = 'edx.user.settings.change_initiated'
 # Used as the name of the user attribute for tracking affiliate registrations
 REGISTRATION_AFFILIATE_ID = 'registration_affiliate_id'
+REGISTRATION_UTM_PARAMETERS = {
+    'utm_source': 'registration_utm_source',
+    'utm_medium': 'registration_utm_medium',
+    'utm_campaign': 'registration_utm_campaign',
+    'utm_term': 'registration_utm_term',
+    'utm_content': 'registration_utm_content',
+}
 # used to announce a registration
 REGISTER_USER = Signal(providing_args=["user", "profile"])
 
@@ -1817,7 +1824,7 @@ def create_account_with_params(request, params):
     login(request, new_user)
     request.session.set_expiry(0)
 
-    _record_registration_attribution(request, new_user)
+    _record_registration_attributions(request, new_user)
 
     # TODO: there is no error checking here to see that the user actually logged in successfully,
     # and is not yet an active user.
@@ -1859,7 +1866,14 @@ def _enroll_user_in_pending_courses(student):
                 )
 
 
-def _record_registration_attribution(request, user):
+def _record_registration_attributions(request, user):
+    """
+    Attribute this user's registration based on referrer cookies.
+    """
+    _record_affiliate_registration_attribution(request, user)
+
+
+def _record_affiliate_registration_attribution(request, user):
     """
     Attribute this user's registration to the referring affiliate, if
     applicable.
@@ -1867,6 +1881,23 @@ def _record_registration_attribution(request, user):
     affiliate_id = request.COOKIES.get(settings.AFFILIATE_COOKIE_NAME)
     if user is not None and affiliate_id is not None:
         UserAttribute.set_user_attribute(user, REGISTRATION_AFFILIATE_ID, affiliate_id)
+
+
+def _record_utm_registration_attribution(request, user):
+    """
+    Attribute this user's registration to the latest UTM referrer, if
+    applicable.
+    """
+    utm_cookie_name = RegistrationCookieConfiguration.current().utm_cookie_name
+    utm_cookie = request.COOKIES.get(utm_cookie_name)
+    if user is not None and utm_cookie is not None:
+        utm = json.loads(utm_cookie)
+        for utm_parameter in REGISTRATION_UTM_PARAMETERS:
+            UserAttribute.set_user_attribute(
+                user,
+                REGISTRATION_UTM_PARAMETERS.get(utm_parameter),
+                utm.get(utm_parameter)
+            )
 
 
 @csrf_exempt
