@@ -55,6 +55,7 @@
 
     <span class="status ${status.classname}" id="status_${id}" aria-describedby="label_${id}">
         <span class="sr">${status.display_name}</span>
+        <%include file="status_icon.html" args="status=status"/>
     </span>
 
     <p id="answer_${id}" class="answer answer-annotation"></p>

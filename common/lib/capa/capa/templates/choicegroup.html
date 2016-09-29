@@ -52,13 +52,7 @@
                   % if status in ('correct', 'partially-correct', 'incorrect') and not show_correctness == 'never':
                     <span class="status ${status.classname if show_correctness != 'never' else 'unanswered'}" id="status_${id}" aria-describedby="${id}-legend" data-tooltip="${status.display_tooltip}">
                       <span class="sr" id="${id}-${choice_id}-labeltext">${status.display_name}</span>
-                      % if status == 'correct':
-                        <span class="status-icon ${status.classname} fa fa-check"></span>
-                      % elif status == 'incorrect':
-                        <span class="status-icon ${status.classname} fa fa-times"></span>
-                      % elif status == 'partially-correct':
-                        <span class="status-icon ${status.classname} fa fa-asterisk"></span>
-                      % endif
+                      <%include file="status_icon.html" args="status=status"/>
                     </span>
                   % endif
                 % endif
@@ -71,13 +65,7 @@
         % if input_type == 'checkbox' or not value:
             <span class="status ${status.classname if show_correctness != 'never' else 'unanswered'}" id="status_${id}" aria-describedby="${id}-legend" data-tooltip="${status.display_tooltip}">
               <span class="sr">${status.display_tooltip}</span>
-              % if status == 'correct':
-                <span class="status-icon ${status.classname} fa fa-check"></span>
-              % elif status == 'incorrect':
-                <span class="status-icon ${status.classname} fa fa-times"></span>
-              % elif status == 'partially-correct':
-                <span class="status-icon ${status.classname} fa fa-asterisk"></span>
-              % endif
+              <%include file="status_icon.html" args="status=status"/>
             </span>
         % endif
     </div>
