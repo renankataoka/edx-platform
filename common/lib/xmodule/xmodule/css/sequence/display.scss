@@ -34,7 +34,7 @@ $next-prev-width: 120px;
 .sequence {
   // Prevents sequence nav sections from overflowing.
   // Cannot be set directly on .sequence-list-wrapper because of the way tooltips are positioned.
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 %ui-clear-button  {
