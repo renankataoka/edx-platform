@@ -181,17 +181,17 @@ class FakeSoftwareSecureVerificationPage(PageObject):
         return True if match else False
 
     def mark_approved(self):
-        """ Mark the lastest verification attempt as passing. """
+        """ Mark the latest verification attempt as passing. """
         self.q(css='#btn_pass').click()
 
     def mark_denied(self):
-        """ Mark the lastest verification attempt as denied. """
+        """ Mark the latest verification attempt as denied. """
         self.q(css='#btn_denied').click()
 
     def mark_error(self):
-        """ Mark the lastest verification attempt as an error. """
+        """ Mark the latest verification attempt as an error. """
         self.q(css='#btn_error').click()
 
     def mark_unkown_error(self):
-        """ Mark the lastest verification attempt as an unkonwn error. """
+        """ Mark the latest verification attempt as an unknown error. """
         self.q(css='#btn_unkonwn_error').click()
