@@ -1016,7 +1016,6 @@ OPTIONAL_APPS = (
     'mentoring',
     'problem_builder',
     'edx_sga',
-    'edx_gea',
 
     # edx-ora2
     'submissions',
